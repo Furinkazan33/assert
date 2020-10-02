@@ -1,9 +1,8 @@
-# assert
+# Assertion library to test shell scripts.
 
-Assertion library to test shell scripts.
+## Example : 
 
--Example : 
-
+```
 string_alpha="sfhGJhgFJkHJK"
 string_alnum="123sf4hGJhgFJkHJK"
 string_with_space="12h4gf3 GHFJk"
@@ -34,10 +33,11 @@ assert not sorted_asc zero bibi
 assert sorted_desc z y g a
 
 exit_with_totals
+```
 
+## Results : 
 
--Results : 
-
+```
 assert alpha sfhGJhgFJkHJK
   => passed
 
@@ -94,4 +94,4 @@ assert sorted_desc z y g a
   Passed: 17
   Errors: 0
  _
-
+```
