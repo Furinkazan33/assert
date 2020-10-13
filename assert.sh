@@ -1,37 +1,35 @@
 #! /bin/bash
+#############################################################
+# assert
+# Author : Mathieu Vidalies https://github.com/Furinkazan33
+#############################################################
+# assert function to test scripts
+# Do the following to use directly in your scripts :
+# TEST=1 will disable echoes of passed tests
+# (optionnal) CONTINUE=1 will stop execution on error
+#############################################################
+
 LIB="./lib"
 
 . $LIB/colors.sh
 . $LIB/functions.sh
 
+# By default, assert is for tests, so do not stop on errors
+TEST=0
+CONTINUE=0
 
-assertion_failed() {
-    color_echo 2 ASSERTION_KO "=> failed"
+_assertion_failed() {
+    color_echo 0 ASSERTION_KO "$* => failed"
     total_failed=$(($total_failed + 1));
+    [ $CONTINUE -eq 1 ] && { echo "Stopping script (CONTINUE=$CONTINUE)"; exit 1; }
 }
 
-assertion_passed() {
-    color_echo 2 ASSERTION_OK "=> passed"
+_assertion_passed() {
+    [ $TEST -eq 0 ] && color_echo 0 ASSERTION_OK "$* => passed"
     total_passed=$(($total_passed + 1))
 }
 
-
-total_passed=0
-total_failed=0
-
-exit_with_totals() {
-    echo ""
-    color_echo 1 YELLOW "-------------"
-    color_echo 2 ASSERTION_OK "Passed: $total_passed"
-    color_echo 2 ASSERTION_KO "Errors: $total_failed"
-    color_echo 1 YELLOW "-------------"
-    echo ""
-    [ $total_failed -ne 0 ] && exit 1
-    exit 0
-}
-
-
-test() {
+_test() {
     local function=$1
     local params=${*:2}
 
@@ -41,24 +39,22 @@ test() {
 }
 
 _assert() {
-    test $* || { assertion_failed $1; return 1; }
+    _test $* || { _assertion_failed $*; return 1; }
 
-    assertion_passed
+    _assertion_passed $*
 
     return 0
 }
 
 _assert_not() {
-    test $* && { assertion_failed not $1; return 1; }
+    _test $* && { _assertion_failed not $*; return 1; }
 
-    assertion_passed
+    _assertion_passed not $*
 
     return 0
 }
 
 assert() {
-    color_echo 0 DARK_BLUE "assert $*"
-
     if [ "$1" == "not" ]; then
         shift
         _assert_not $*
@@ -67,3 +63,18 @@ assert() {
     fi
 }
 
+total_passed=0
+total_failed=0
+
+exit_with_totals() {
+    [ $TEST -eq 0 ] && {
+        echo ""
+        color_echo 1 YELLOW "-------------"
+        color_echo 2 ASSERTION_OK "Passed: $total_passed"
+        color_echo 2 ASSERTION_KO "Errors: $total_failed"
+        color_echo 1 YELLOW "-------------"
+        echo ""
+        [ $total_failed -ne 0 ] && exit 1
+        exit 0
+    }
+}

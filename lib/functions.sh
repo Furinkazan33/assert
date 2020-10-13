@@ -1,15 +1,15 @@
 #! /bin/bash
 
 alpha(){
-    echo "$*" | grep -E "^[[:alpha:]]{1,}$"
+    echo "$*" | grep -E "^[[:alpha:]]{1,}$" &> /dev/null
 }
 
 alnum(){
-    echo "$*" | grep -E "^[[:alnum:]]{1,}$"
+    echo "$*" | grep -E "^[[:alnum:]]{1,}$" &> /dev/null
 }
 
 numeric(){
-    echo "$*" | grep -E "^[0-9]{1,}$"
+    echo "$*" | grep -E "^[0-9]{1,}$" &> /dev/null
 }
 
 positive() {

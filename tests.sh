@@ -5,6 +5,10 @@
 ######################################
 # Tests
 ######################################
+
+# Optionnal, default value
+TEST=0
+
 string_alpha="sfhGJhgFJkHJK"
 string_alnum="123sf4hGJhgFJkHJK"
 string_with_space="12h4gf3 GHFJk"
@@ -32,7 +36,7 @@ assert sorted_num_desc 10 2 0 -5 -9
 
 assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg
 assert not sorted_asc zero bibi
-assert sorted_desc z y g a
+assert not sorted_desc z y g a
 
 ######################################
 # Assertions passed & failed
