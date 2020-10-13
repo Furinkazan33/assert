@@ -13,7 +13,9 @@ sorted_num_desc
 sorted_num_asc
 ```
 
-## Example : 
+## In your tests scripts :
+
+### The following...
 
 ```
 assert alpha "sfhGJhgFJkHJK"
@@ -27,7 +29,7 @@ assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg
 exit_with_totals
 ```
 
-## Results : 
+### Will produce 
 
 ```
 assert alpha sfhGJhgFJkHJK
@@ -49,4 +51,28 @@ assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg
   Passed: 7
   Errors: 0
  ------------
+```
+
+## Directly in your scripts :
+
+### The following...
+
+```
+TEST=1
+CONTINUE=1
+assert alpha "sfhGJhgFJkHJK"
+assert alnum "12h4gf3 GHFJk"
+assert positive 0 5 1845421 2 3 3
+assert negative -5 -1845421 -2 -3
+assert not negative -1 -2 0 -1 -4
+assert not sorted_num_asc -4 0 2 8 7 9 13
+assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg
+
+exit_with_totals
+```
+
+### Will produce 
+
+```
+assert alnum 12h4gf3 GHFJk => failed
 ```
