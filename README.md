@@ -13,7 +13,7 @@ sorted_num_desc
 sorted_num_asc
 ```
 
-## In your tests scripts :
+## In your tests scripts (test mode) :
 
 ### The following...
 
@@ -46,7 +46,7 @@ assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg => passed
  ------------
 ```
 
-## Directly in your scripts :
+## Directly in your scripts (execution mode) :
 
 ### The following...
 
