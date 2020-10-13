@@ -1,4 +1,4 @@
-# Assertion library to test shell scripts.
+# Assertion library to test shell scripts with colored report.
 
 ## Functions list (work in progress to add more) : 
 ```
@@ -32,24 +32,17 @@ exit_with_totals
 ### Will produce 
 
 ```
-assert alpha sfhGJhgFJkHJK
-  => passed
-assert not alnum 12h4gf3 GHFJk
-  => passed
-assert positive 0 5 1845421 2 3 3
-  => passed
-assert negative -5 -1845421 -2 -3
-  => passed
-assert not negative -1 -2 0 -1 -4
-  => passed
-assert not sorted_num_asc -4 0 2 8 7 9 13
-  => passed
-assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg
-  => passed
+assert alpha sfhGJhgFJkHJK => passed
+assert alnum "12h4gf3 GHFJk" => failed
+assert positive 0 5 1845421 2 3 3 => passed
+assert negative -5 -1845421 -2 -3 => passed
+assert not negative -1 -2 0 -1 -4 => failed
+assert not sorted_num_asc -4 0 2 8 7 9 13 => passed
+assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg => passed
 
  ------------
   Passed: 7
-  Errors: 0
+  Errors: 2
  ------------
 ```
 
