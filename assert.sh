@@ -21,11 +21,10 @@ total_failed=0
 
 exit_with_totals() {
     echo ""
-    color_echo 1 YELLOW "_"
-    echo ""
+    color_echo 1 YELLOW "-------------"
     color_echo 2 ASSERTION_OK "Passed: $total_passed"
     color_echo 2 ASSERTION_KO "Errors: $total_failed"
-    color_echo 1 YELLOW "_"
+    color_echo 1 YELLOW "-------------"
     echo ""
     [ $total_failed -ne 0 ] && exit 1
     exit 0
@@ -36,13 +35,9 @@ test() {
     local function=$1
     local params=${*:2}
 
-    #echo "FUNC: $1 ($params)"
-    res=$($function $params)
-    RET_CODE=$?
-    #[ ! -z "$res" ] && echo "ECHO: \"$res\""
-    #echo "RETC: <$RET_CODE>"
-
-    return $RET_CODE
+    $function $params
+    
+    return $?
 }
 
 _assert() {
@@ -62,7 +57,6 @@ _assert_not() {
 }
 
 assert() {
-    echo ""
     color_echo 0 DARK_BLUE "assert $*"
 
     if [ "$1" == "not" ]; then
