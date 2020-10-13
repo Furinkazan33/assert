@@ -19,10 +19,9 @@ sorted_num_asc
 
 ```
 assert alpha "sfhGJhgFJkHJK"
-assert not alnum "12h4gf3 GHFJk"
-assert positive 0 5 1845421 2 3 3
+assert alnum "12h4gf3 GHFJk"
+assert not positive 0 5 1845421 2 3 3
 assert negative -5 -1845421 -2 -3
-assert not negative -1 -2 0 -1 -4
 assert not sorted_num_asc -4 0 2 8 7 9 13
 assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg
 
@@ -34,14 +33,13 @@ exit_with_totals
 ```
 assert alpha sfhGJhgFJkHJK => passed
 assert alnum "12h4gf3 GHFJk" => failed
-assert positive 0 5 1845421 2 3 3 => passed
+assert not positive 0 5 1845421 2 3 3 => failed
 assert negative -5 -1845421 -2 -3 => passed
-assert not negative -1 -2 0 -1 -4 => failed
 assert not sorted_num_asc -4 0 2 8 7 9 13 => passed
 assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg => passed
 
  ------------
-  Passed: 7
+  Passed: 4
   Errors: 2
  ------------
 ```
@@ -55,9 +53,8 @@ TEST=1
 CONTINUE=1
 assert alpha "sfhGJhgFJkHJK"
 assert alnum "12h4gf3 GHFJk"
-assert positive 0 5 1845421 2 3 3
+assert not positive 0 5 1845421 2 3 3
 assert negative -5 -1845421 -2 -3
-assert not negative -1 -2 0 -1 -4
 assert not sorted_num_asc -4 0 2 8 7 9 13
 assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg
 
