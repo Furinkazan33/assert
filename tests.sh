@@ -38,6 +38,13 @@ assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg
 assert not sorted_asc zero bibi
 assert not sorted_desc z y g a
 
+assert expression "(echo ok)" echoes ok and returns 0
+func() { echo "Working $1 !"; return 3; }
+assert expression "(func OK)" echoes "Working OK !" and returns 3
+assert expression "(func OK)" echoes "Working OK !"
+assert expression "(func OK)" returns 3
+
+
 ######################################
 # Assertions passed & failed
 ######################################

@@ -39,17 +39,17 @@ _test() {
 }
 
 _assert() {
-    _test $* || { _assertion_failed $*; return 1; }
+    _test "$*" || { _assertion_failed "$*"; return 1; }
 
-    _assertion_passed $*
+    _assertion_passed "$*"
 
     return 0
 }
 
 _assert_not() {
-    _test $* && { _assertion_failed not $*; return 1; }
+    _test "$*" && { _assertion_failed "not $*"; return 1; }
 
-    _assertion_passed not $*
+    _assertion_passed not "$*"
 
     return 0
 }
@@ -57,9 +57,9 @@ _assert_not() {
 assert() {
     if [ "$1" == "not" ]; then
         shift
-        _assert_not $*
+        _assert_not "$*"
     else
-        _assert $*
+        _assert "$*"
     fi
 }
 
