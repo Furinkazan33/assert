@@ -19,7 +19,7 @@ TEST=true
 CONTINUE=true
 
 _assertion_failed() {
-    echoc 0 KO "$* => failed"
+    is_true $TEST && echoc 0 KO "$* => failed" || echoc 0 KO "An assertion failed during the execution of your script ($*)"
     total_failed=$(($total_failed + 1));
     is_false $CONTINUE && { echo "Stopping script (CONTINUE=$CONTINUE)"; exit 1; }
 }

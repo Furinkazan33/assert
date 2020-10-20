@@ -88,5 +88,5 @@ exit_with_totals
 ### Will only produce 
 
 ```
-assert alnum 12h4gf3 GHFJk => failed
+An assertion failed during the execution of your script (alnum 12h4gf3 GHFJk)
 ```
