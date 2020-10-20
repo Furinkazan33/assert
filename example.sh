@@ -34,15 +34,15 @@ function main() {
 ####################################
 
 # Enable echo and continue on error
-TEST=0
-CONTINUE=0
+TEST=true
+CONTINUE=true
 echo "First pass : TEST=$TEST, CONTINUE=$CONTINUE"
 main
 
 echo
 # Diosable echo and stop on error
-TEST=1
-CONTINUE=1
+TEST=false
+CONTINUE=false
 echo "Second pass : TEST=$TEST, CONTINUE=$CONTINUE"
 main
 

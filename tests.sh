@@ -7,7 +7,7 @@
 ######################################
 
 # Optionnal, default value
-TEST=0
+TEST=true
 
 string_alpha="sfhGJhgFJkHJK"
 string_alnum="123sf4hGJhgFJkHJK"
@@ -25,10 +25,10 @@ assert not alnum $string_special
 assert numeric $string_numeric
 assert not numeric $string_alnum
 
-assert positive 0 5 1845421 2 3 3
-assert not positive 1 2 3 -1 4 5
-assert negative -5 -1845421 -2 -3
-assert not negative -1 -2 0 -1 -4
+assert all_positive 0 5 1845421 2 3 3
+assert not all_positive 1 2 3 -1 4 5
+assert all_negative -5 -1845421 -2 -3
+assert not all_negative -1 -2 0 -1 -4
 
 assert sorted_num_asc -4 0 2 5 7 9 13
 assert not sorted_num_asc -4 0 2 8 7 9 13

@@ -5,8 +5,8 @@
 #############################################################
 # assert function to test scripts
 # Do the following to use directly in your scripts :
-# TEST=1 will disable echoes of passed tests
-# (optionnal) CONTINUE=1 will stop execution on error
+# TEST=false will disable echoes of passed tests
+# (optionnal) CONTINUE=false will stop execution on error
 #############################################################
 
 LIB="./lib"
@@ -15,17 +15,17 @@ LIB="./lib"
 . $LIB/functions.sh
 
 # By default, assert is for tests, so do not stop on errors
-TEST=0
-CONTINUE=0
+TEST=true
+CONTINUE=true
 
 _assertion_failed() {
-    color_echo 0 ASSERTION_KO "$* => failed"
+    echoc 0 KO "$* => failed"
     total_failed=$(($total_failed + 1));
-    [ $CONTINUE -eq 1 ] && { echo "Stopping script (CONTINUE=$CONTINUE)"; exit 1; }
+    is_false $CONTINUE && { echo "Stopping script (CONTINUE=$CONTINUE)"; exit 1; }
 }
 
 _assertion_passed() {
-    [ $TEST -eq 0 ] && color_echo 0 ASSERTION_OK "$* => passed"
+    is_true $TEST && echoc 0 OK "$* => passed"
     total_passed=$(($total_passed + 1))
 }
 
@@ -67,12 +67,12 @@ total_passed=0
 total_failed=0
 
 exit_with_totals() {
-    [ $TEST -eq 0 ] && {
+    is_true $TEST && {
         echo ""
-        color_echo 1 YELLOW "-------------"
-        color_echo 2 ASSERTION_OK "Passed: $total_passed"
-        color_echo 2 ASSERTION_KO "Errors: $total_failed"
-        color_echo 1 YELLOW "-------------"
+        echoc 1 YELLOW "-------------"
+        echoc 2 OK "Passed: $total_passed"
+        echoc 2 KO "Errors: $total_failed"
+        echoc 1 YELLOW "-------------"
         echo ""
         [ $total_failed -ne 0 ] && exit 1
         exit 0

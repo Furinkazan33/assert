@@ -1,5 +1,24 @@
 #! /bin/bash
 
+# Only "0", "true" and "TRUE" are true
+is_true() {
+    local value="$*"
+
+    if [[ $value =~ ^[0-9]+$ ]]; then
+        [ $value -eq 0 ] && return 0
+    else
+        ([ "$value" == "true" ] || [ "$value" == "TRUE" ]) && return 0
+    fi
+
+    return 1
+}
+
+# Everything is false except when it's true
+is_false() {
+    is_true "$*" || return 0
+    return 1
+}
+
 alpha(){
     echo "$*" | grep -E "^[[:alpha:]]{1,}$" &> /dev/null
 }
@@ -13,6 +32,19 @@ numeric(){
 }
 
 positive() {
+    [ $1 -ge 0 ] && return 0
+
+    return 1
+}
+
+negative() {
+    [ $1 -lt 0 ] && return 0
+
+    return 1
+}
+
+# All >=0
+all_positive() {
     for n in $*; do
         [ $n -lt 0 ] && return 1
     done
@@ -20,7 +52,8 @@ positive() {
     return 0
 }
 
-negative() {
+# All <0
+all_negative() {
     for n in $*; do
         [ $n -ge 0 ] && return 1
     done
