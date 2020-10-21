@@ -1,6 +1,19 @@
 #! /bin/bash
-. assert.sh
+#############################################################
+# assert
+# Author : Mathieu Vidalies https://github.com/Furinkazan33
+#############################################################
+# Some tests examples
+# See how powerful the expression function is
+#############################################################
 
+# Change this line as your needs
+ASSERT_ROOT=$(dirname $0)/..
+
+. $ASSERT_ROOT/assert.sh
+
+# Usage
+[ $# -ne 0 ] && { echo "Usage: ./tests.sh"; exit 1; }
 
 ######################################
 # Tests
@@ -43,10 +56,11 @@ func() { echo "Working $1 !"; return 3; }
 assert expression "(func OK)" echoes "Working OK !" and returns 3
 assert expression "(func OK)" echoes "Working OK !"
 assert expression "(func OK)" returns 3
+assert expression "($ASSERT_ROOT/tests/example.sh p1)" echoes "Usage: ./example.sh" and returns 1
 
 
 ######################################
-# Assertions passed & failed
+# Resultst
 ######################################
-exit_with_totals
+results_and_exit
 

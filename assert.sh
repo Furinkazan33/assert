@@ -9,7 +9,7 @@
 # (optionnal) CONTINUE=false will stop execution on error
 #############################################################
 
-LIB="./lib"
+LIB=$(dirname "${BASH_SOURCE[0]}")/lib
 
 . $LIB/colors.sh
 . $LIB/functions.sh
@@ -18,16 +18,25 @@ LIB="./lib"
 TEST=true
 CONTINUE=true
 
+# Creating logs folder
+LOGS="logs"
+mkdir $LOGS 2> /dev/null
+
+# Output file, set as "/dev/stdout" to output to stdout
+#OUTPUT="/dev/stdout"
+OUTPUT="$LOGS/execution_$(date +%Y_%m_%d_%s).log"
+
+
 _assertion_failed() {
     is_true $TEST && echoc 0 KO "$* => failed" || echoc 0 KO "An assertion failed during the execution of your script ($*)"
     total_failed=$(($total_failed + 1));
     is_false $CONTINUE && { echo "Stopping script (CONTINUE=$CONTINUE)"; exit 1; }
-}
+} >> $OUTPUT
 
 _assertion_passed() {
     is_true $TEST && echoc 0 OK "$* => passed"
     total_passed=$(($total_passed + 1))
-}
+} >> $OUTPUT
 
 _test() {
     local function=$1
@@ -66,15 +75,21 @@ assert() {
 total_passed=0
 total_failed=0
 
-exit_with_totals() {
+results_and_exit() {
     is_true $TEST && {
-        echo ""
-        echoc 1 YELLOW "-------------"
-        echoc 2 OK "Passed: $total_passed"
-        echoc 2 KO "Errors: $total_failed"
-        echoc 1 YELLOW "-------------"
-        echo ""
+        echo "" >> $OUTPUT
+        echoc 1 YELLOW "-------------" >> $OUTPUT
+        echoc 2 OK "Passed: $total_passed" >> $OUTPUT
+        echoc 2 KO "Errors: $total_failed" >> $OUTPUT
+        echoc 1 YELLOW "-------------" >> $OUTPUT
+        echo "" >> $OUTPUT
+    }
+
+    [ -f $OUTPUT ] && cat $OUTPUT
+
+    is_true $TEST && {
         [ $total_failed -ne 0 ] && exit 1
         exit 0
     }
-}
+
+} 

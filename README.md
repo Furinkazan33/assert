@@ -40,6 +40,7 @@ func() { echo "Working $1 !"; return 3; }
 assert expression "(func OK)" echoes "Working OK !" and returns 3
 assert expression "(func OK)" echoes "Working OK !"
 assert expression "(func OK)" returns 3
+assert expression "(./example.sh p1)" echoes "Usage: ./example.sh" and returns 1
 
 exit_with_totals
 ```
@@ -57,9 +58,10 @@ expression (echo OK) echoes OK and returns 0 => passed
 expression (func OK) echoes Working OK ! and returns 3 => passed
 expression (func OK) echoes Working OK ! => passed
 expression (func OK) returns 3 => passed
+expression (./example.sh p1) echoes Usage: ./example.sh and returns 1 => passed
 
  ------------
-  Passed: 8
+  Passed: 9
   Errors: 2
  ------------
 ```
