@@ -57,10 +57,10 @@ assert expression "(func OK)" echoes "Working OK !" and returns 3
 assert expression "(func OK)" echoes "Working OK !"
 assert expression "(func OK)" returns 3
 assert expression "($ASSERT_ROOT/tests/example.sh p1)" echoes "Usage: ./example.sh" and returns 1
-
+assert expression "(invalid_command)"
 
 ######################################
-# Resultst
+# Results
 ######################################
 results_and_exit
 

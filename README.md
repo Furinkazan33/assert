@@ -4,21 +4,39 @@
 ```
 is_true ("true", "TRUE" or "0")
 is_false (not true)
-alpha
-numeric
-alnum
-positive
-negative
-all_positive (on a list)
-all_negative (on a list)
-sorted_desc (on a list)
-sorted_asc (on a list)
-sorted_num_desc (on a list)
-sorted_num_asc (on a list)
-expression (on any expression)
+alpha <value>
+numeric <value>
+alnum <value>
+positive <value>
+negative <value>
+all_positive <values list>
+all_negative <values list>
+sorted_desc <values list>
+sorted_asc <values list>
+sorted_num_desc <values list>
+sorted_num_asc <values list>
+expression (<expression>) [echoes <value>] [and] [returns <value>]
 ```
 
-## In your tests scripts (test mode, ie TEST=true) :
+## Options
+
+You can specify if you do not want a log file in your scripts by specifying the following : 
+
+```
+OUTPUT="/dev/stdout"
+```
+
+You can stop executing your scripts on any errors via the following :
+```
+CONTINUE=false or CONTINUE=1
+```
+
+You can prevent outputs of passing assertions via the following :
+```
+TEST=false or TEST=1
+```
+
+## Example, in your tests scripts (test mode, ie TEST=true)
 
 ### The following...
 
@@ -41,11 +59,12 @@ assert expression "(func OK)" echoes "Working OK !" and returns 3
 assert expression "(func OK)" echoes "Working OK !"
 assert expression "(func OK)" returns 3
 assert expression "(./example.sh p1)" echoes "Usage: ./example.sh" and returns 1
+assert expression "(invalid_command)"
 
 exit_with_totals
 ```
 
-### Will produce 
+### Will produce the following in a log file
 
 ```
 alpha sfhGJhgFJkHJK => passed
@@ -59,14 +78,15 @@ expression (func OK) echoes Working OK ! and returns 3 => passed
 expression (func OK) echoes Working OK ! => passed
 expression (func OK) returns 3 => passed
 expression (./example.sh p1) echoes Usage: ./example.sh and returns 1 => passed
+expression (invalid_command) => failed
 
  ------------
   Passed: 9
-  Errors: 2
+  Errors: 3
  ------------
 ```
 
-## Directly in your scripts (execution mode, ie TEST=false) :
+## Example, directly in your scripts (execution mode, ie TEST=false) :
 
 ### The following...
 
@@ -92,3 +112,5 @@ exit_with_totals
 ```
 An assertion failed during the execution of your script (alnum 12h4gf3 GHFJk)
 ```
+
+# Feel free to contribute, or ask for improvements or help.

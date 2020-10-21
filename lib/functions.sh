@@ -111,11 +111,11 @@ sorted_num_asc() {
 
 expression() {
     usage() {
-        echo "Usage: expression (expression) [echoes <value>] [and] [returns <value>]"
+        echo 'Usage: expression "(expression)" [echoes <value>] [and] [returns <value>]'
         echo "With expression is a function call, an echo, a subscript, ..."
     }
 
-    regex="^\((.*)\)( echoes (.*) and returns (.*)| echoes (.*)| returns (.*))$"
+    regex="^\((.*)\)( echoes (.*) and returns (.*)| echoes (.*)| returns (.*))?$"
 
     if [[ "$*" =~ $regex ]]
     then
@@ -127,25 +127,33 @@ expression() {
         #echo "4:${BASH_REMATCH[4]}"
         #echo "5:${BASH_REMATCH[5]}"
         #echo "6:${BASH_REMATCH[6]}"
-        #echo "7:${BASH_REMATCH[7]}"
     else
         usage
         return 1
     fi
 
-    expression_echo=$($expression)
+    expression_echo=$(eval $expression 2> /dev/null)
     expression_return=$?
 
     local echoes returns
 
+    # Only returns
     if [ ! -z "${BASH_REMATCH[6]}" ]; then 
         [ $expression_return -ne ${BASH_REMATCH[6]} ] && return 1
         return 0
 
+    # Only echoes
     elif [ ! -z "${BASH_REMATCH[5]}" ]; then
         [ "$expression_echo" != "${BASH_REMATCH[5]}" ] && return 1
         return 0
-    else 
+
+    # Only expression
+    elif [ -z "${BASH_REMATCH[4]}" ] && [ -z "${BASH_REMATCH[3]}" ] && [ -z "${BASH_REMATCH[2]}" ]; then
+        [ $expression_return -ne 0 ] && return 1
+        return 0
+
+    # returns and echoes
+    else
         [ "$expression_echo" != "${BASH_REMATCH[3]}" ] && return 1
         [ $expression_return -ne ${BASH_REMATCH[4]} ] && return 1
         return 0
@@ -154,4 +162,22 @@ expression() {
     #echo "$expression $expression_echo $expression_return $echoes $returns"
 
     return 0
+}
+
+
+functions_list() {
+    echoc 3 DARK_BLUE 'is_true (true, TRUE or 0)'
+    echoc 3 DARK_BLUE 'is_false (not true)'
+    echoc 3 DARK_BLUE 'alpha <value>'
+    echoc 3 DARK_BLUE 'numeric <value>'
+    echoc 3 DARK_BLUE 'alnum <value>'
+    echoc 3 DARK_BLUE 'positive <value>'
+    echoc 3 DARK_BLUE 'negative <value>'
+    echoc 3 DARK_BLUE 'all_positive <values list>'
+    echoc 3 DARK_BLUE 'all_negative <values list>'
+    echoc 3 DARK_BLUE 'sorted_desc <values list>'
+    echoc 3 DARK_BLUE 'sorted_asc <values list>'
+    echoc 3 DARK_BLUE 'sorted_num_desc <values list>'
+    echoc 3 DARK_BLUE 'sorted_num_asc <values list>'
+    echoc 3 DARK_BLUE 'expression "(<expression>)" [echoes <value>] [and] [returns <value>]'
 }

@@ -75,7 +75,7 @@ assert() {
 total_passed=0
 total_failed=0
 
-results_and_exit() {
+results() {
     is_true $TEST && {
         echo "" >> $OUTPUT
         echoc 1 YELLOW "-------------" >> $OUTPUT
@@ -86,6 +86,10 @@ results_and_exit() {
     }
 
     [ -f $OUTPUT ] && cat $OUTPUT
+} 
+
+results_and_exit() {
+    results
 
     is_true $TEST && {
         [ $total_failed -ne 0 ] && exit 1
@@ -93,3 +97,10 @@ results_and_exit() {
     }
 
 } 
+
+help() {
+    echoc 0 PURPLE "- assert <function> <parameters> : Test functions, functions list : "
+    functions_list
+    echoc 0 PURPLE "- results : Print results"
+    echoc 0 PURPLE "- results_and_exit : (only in your scripts) Print results and exit 1 if errors, exit 0 if no error"
+}
