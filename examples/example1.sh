@@ -13,7 +13,7 @@ ASSERT_ROOT=$(dirname $0)/..
 . $ASSERT_ROOT/assert.sh
 
 # Usage
-[ $# -ne 0 ] && { echo "Usage: ./tests.sh"; exit 1; }
+[ $# -ne 0 ] && { echo "Usage: ./example1.sh"; exit 1; }
 
 ######################################
 # Tests
@@ -56,7 +56,7 @@ func() { echo "Working $1 !"; return 3; }
 assert expression "(func OK)" echoes "Working OK !" and returns 3
 assert expression "(func OK)" echoes "Working OK !"
 assert expression "(func OK)" returns 3
-assert expression "($ASSERT_ROOT/tests/example.sh p1)" echoes "Usage: ./example.sh" and returns 1
+assert expression "($ASSERT_ROOT/examples/example2.sh p1)" echoes "Usage: ./example2.sh" and returns 1
 assert expression "(invalid_command)"
 
 ######################################

@@ -17,7 +17,7 @@ ASSERT_ROOT=$(dirname $0)/..
 OUTPUT="/dev/stdout"
 
 # Usage
-[ $# -ne 0 ] && { echo "Usage: ./example.sh"; exit 1; }
+[ $# -ne 0 ] && { echo "Usage: ./example2.sh"; exit 1; }
 
 
 function add() {

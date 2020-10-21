@@ -116,4 +116,14 @@ exit_with_totals
 An assertion failed during the execution of your script (alnum 12h4gf3 GHFJk)
 ```
 
+## For complete examples, see the examples folder
+```
+cd examples
+chmod u+x example*
+./example1.sh
+./example2.sh
+```
+
+
 # Feel free to contribute, or ask for improvements or help.
+
