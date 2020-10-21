@@ -1,4 +1,7 @@
 # Assertion library to test shell scripts with colored report.
+```
+assert [not] <function> <parameters>
+```
 
 ## Functions list (work in progress to add more) : 
 ```
@@ -15,7 +18,7 @@ sorted_desc <values list>
 sorted_asc <values list>
 sorted_num_desc <values list>
 sorted_num_asc <values list>
-expression (<expression>) [echoes <value>] [and] [returns <value>]
+expression "(<expression>)" [echoes <value>] [and] [returns <value>]
 ```
 
 ## Options
@@ -59,7 +62,7 @@ assert expression "(func OK)" echoes "Working OK !" and returns 3
 assert expression "(func OK)" echoes "Working OK !"
 assert expression "(func OK)" returns 3
 assert expression "(./example.sh p1)" echoes "Usage: ./example.sh" and returns 1
-assert expression "(invalid_command)"
+assert not expression "(invalid_command)"
 
 exit_with_totals
 ```
@@ -78,11 +81,11 @@ expression (func OK) echoes Working OK ! and returns 3 => passed
 expression (func OK) echoes Working OK ! => passed
 expression (func OK) returns 3 => passed
 expression (./example.sh p1) echoes Usage: ./example.sh and returns 1 => passed
-expression (invalid_command) => failed
+not expression (invalid_command) => passed
 
  ------------
-  Passed: 9
-  Errors: 3
+  Passed: 10
+  Errors: 2
  ------------
 ```
 
