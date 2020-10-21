@@ -1,5 +1,0 @@
-[1;32m=> passed[0m
-[1;31mexpression => failed[0m
-[1;31mexpression (echo oui) => failed[0m
-[1;32mexpression (echos oui) => passed[0m
-[1;32mexpression (invalid_command) => passed[0m
