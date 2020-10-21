@@ -2,7 +2,7 @@
 
 ## Functions list (work in progress to add more) : 
 ```
-is_true ("true", "TRUE" or "0")
+is_true (true, TRUE or 0)
 is_false (not true)
 alpha <value>
 numeric <value>

@@ -180,4 +180,5 @@ functions_list() {
     echoc 3 DARK_BLUE 'sorted_num_desc <values list>'
     echoc 3 DARK_BLUE 'sorted_num_asc <values list>'
     echoc 3 DARK_BLUE 'expression "(<expression>)" [echoes <value>] [and] [returns <value>]'
+    echoc 3 DARK_BLUE 'expression "(<expression>)" is a shortcut for expression "(<expression>)" returns 0'
 }
