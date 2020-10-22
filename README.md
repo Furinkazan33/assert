@@ -1,7 +1,7 @@
 
 # Assertion library to test shell scripts
 
-Features
+**Features**
 - usable in command line, in your scripts (execution mode) or in your tests scripts (test mode)
 - colored report
 - enable/disable outputs to stdout or log file
