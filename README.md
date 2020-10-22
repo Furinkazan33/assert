@@ -114,7 +114,7 @@ assert not expression "(invalid_command)"
 exit_with_totals
 ```
 
-### Will produce the following in a log file
+### ...will produce the following in a log file
 
 ```
 alpha sfhGJhgFJkHJK => passed
@@ -149,15 +149,11 @@ CONTINUE=false
 
 assert alpha "sfhGJhgFJkHJK"
 assert alnum "12h4gf3 GHFJk"
-assert not positive 0 5 1845421 2 3 3
-assert negative -5 -1845421 -2 -3
-assert not sorted_num_asc -4 0 2 8 7 9 13
-assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg
 
-exit_with_totals
+echo "This doesn't occur"
 ```
 
-### Will only produce 
+### ...will only produce 
 
 ```
 An assertion failed during the execution of your script (alnum 12h4gf3 GHFJk)
