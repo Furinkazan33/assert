@@ -1,4 +1,6 @@
+
 # Assertion library to test shell scripts
+
 
 ## Features
 - usable in command line, in your scripts (execution mode) or in your tests scripts (test mode)
@@ -63,9 +65,11 @@ You can prevent outputs of passing assertions via the following :
 TEST=false or TEST=1
 ```
 
+
 ## Examples
 
-### Command line example
+
+### Command line
 ```
 $ . assert.sh
 $ OUTPUT="/dev/stdout"
@@ -88,7 +92,7 @@ $ results
 
 ```
 
-### Example, in your tests scripts (test mode, ie TEST=true)
+### Tests scripts (TEST=true)
 
 #### The following...
 
@@ -138,7 +142,7 @@ not expression (invalid_command) => passed
  ------------
 ```
 
-### Example, directly in your scripts (execution mode, ie TEST=false)
+### Execution scripts (TEST=false)
 
 #### The following...
 
@@ -169,4 +173,6 @@ chmod u+x example*
 ./example2.sh
 ```
 
+
 ## Feel free to contribute, or ask for improvements or help.
+
