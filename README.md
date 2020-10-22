@@ -1,4 +1,4 @@
-# Assertion library to test shell scripts with colored report.
+# Assertion library to test shell scripts.
 ```
 assert [not] <function> <parameters>
 ```
