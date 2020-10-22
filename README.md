@@ -1,4 +1,5 @@
 # Assertion library to test shell scripts
+
 ## Features
 - usable in command line, in your scripts (execution mode) or in your tests scripts (test mode)
 - colored report
@@ -38,7 +39,7 @@ $ results
 
 ```
 
-## Functions list (ask for more)
+## Assert functions
 ```
 is_true <values list> (true, TRUE or 0)
 is_false <values list> (false, FALSE or 1)
@@ -61,10 +62,16 @@ sorted_num_asc <numbers list>
 expression "(<expression>)" [echoes <value>] [and] [returns <value>]
 ```
 
+## User commands
+```
+help : display grammar and functions list
+results : display a brief summary
+results_and_exit : display a brief summary and exit with 0 or 1 if any assertion has failed
+```
+
 ## Options
 
 You can specify if you do not want a log file in your scripts by specifying the following : 
-
 ```
 OUTPUT="/dev/stdout"
 ```
@@ -164,6 +171,4 @@ chmod u+x example*
 ./example2.sh
 ```
 
-
 # Feel free to contribute, or ask for improvements or help.
-
