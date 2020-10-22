@@ -42,21 +42,9 @@ results_and_exit : display a brief summary and exit with 0 or 1 if any assertion
 ```
 
 **Options**
-
-You can specify if you do not want a log file in your scripts by specifying the following : 
-```
-OUTPUT="/dev/stdout"
-```
-
-You can stop executing your scripts on any errors via the following :
-```
-CONTINUE=false or CONTINUE=1
-```
-
-You can prevent outputs of passing assertions via the following :
-```
-TEST=false or TEST=1
-```
+You can specify if you do not want a log file by specifying the following : ```OUTPUT="/dev/stdout"```
+You can stop executing your scripts on any errors via the following : ```CONTINUE=false or CONTINUE=1```
+You can prevent outputs of passing assertions via the following : ```TEST=false or TEST=1```
 
 
 ## Examples
