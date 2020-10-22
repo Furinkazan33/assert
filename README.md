@@ -11,7 +11,7 @@
 - work in progress : interactive menu for setting options
 - work in progress : adding more keywords to the expression grammar (stdout, stderr, empty, contains, is, not-contains, etc ...)
 
-## Assert functions
+**Assert functions**
 ```
 is_true <values list> (true, TRUE or 0)
 is_false <values list> (false, FALSE or 1)
@@ -34,14 +34,14 @@ sorted_num_asc <numbers list>
 expression "(<expression>)" [echoes <value>] [and] [returns <value>]
 ```
 
-## User commands
+**User commands**
 ```
 help : display grammar and functions list
 results : display a brief summary
 results_and_exit : display a brief summary and exit with 0 or 1 if any assertion has failed
 ```
 
-## Options
+**Options**
 
 You can specify if you do not want a log file in your scripts by specifying the following : 
 ```
@@ -61,7 +61,7 @@ TEST=false or TEST=1
 
 ## Examples
 
-For complete examples, see the examples folder
+**For complete examples, see the examples folder**
 ```
 cd examples
 chmod u+x example*
