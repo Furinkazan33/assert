@@ -1,4 +1,4 @@
-# Assertion library to test shell scripts.
+# Assertion library to test shell scripts
 ## Features
 - colored report
 - enable/disable outputs to stdout or log file
@@ -7,7 +7,7 @@
 ```
 assert [not] <function> <parameters>
 ```
-- complex expressions grammar (any code, functions, scripts call, etc...) 
+- complex expressions grammar (any code, functions, scripts call, etc...) :
 ```
 assert [not] expression "(any code here)" [echoes <something>] [and] [returns <value>]
 ```
@@ -35,7 +35,7 @@ $ results
 
 ```
 
-## Functions list (work in progress to add more) : 
+## Functions list (ask for more)
 ```
 is_true <values list> (true, TRUE or 0)
 is_false <values list> (false, FALSE or 1)
@@ -126,7 +126,7 @@ not expression (invalid_command) => passed
  ------------
 ```
 
-## Example, directly in your scripts (execution mode, ie TEST=false) :
+## Example, directly in your scripts (execution mode, ie TEST=false)
 
 ### The following...
 
