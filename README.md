@@ -7,10 +7,7 @@ Features
 - enable/disable outputs to stdout or log file
 - enable/disable stopping on errors
 - common tests functions : ```assert [not] <function> <parameters>```
-- complex expressions grammar (any code, functions, scripts call, etc...) :
-```
-assert [not] expression "(any code here)" [echoes <something>] [and] [returns <value>]
-```
+- complex expressions grammar (any code, functions, scripts call, etc...) : ```assert [not] expression "(any code here)" [echoes <something>] [and] [returns <value>]```
 - work in progress : interactive menu for setting options
 - work in progress : adding more keywords to the expression grammar (stdout, stderr, empty, contains, is, not-contains, etc ...)
 
