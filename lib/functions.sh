@@ -1,60 +1,133 @@
 #! /bin/bash
+#############################################################
+# assert
+# Author : Mathieu Vidalies https://github.com/Furinkazan33
+#############################################################
+# Functions to use with the assert function
+#############################################################
+
+_functions_list() {
+    echoc 3 DARK_BLUE 'is_true <values list> (true, TRUE or 0)'
+    echoc 3 DARK_BLUE 'is_false <values list> (not true)'
+    echoc 3 DARK_BLUE 'alpha <values list>'
+    echoc 3 DARK_BLUE 'numeric <numbers list>'
+    echoc 3 DARK_BLUE 'alnum <values list>'
+    echoc 3 DARK_BLUE 'empty <values list>'
+    echoc 3 DARK_BLUE 'not_empty <values list>'
+    echoc 3 DARK_BLUE 'eq <value> <value>'
+    echoc 3 DARK_BLUE 'gt <value> <value>'
+    echoc 3 DARK_BLUE 'ge <value> <value>'
+    echoc 3 DARK_BLUE 'lt <value> <value>'
+    echoc 3 DARK_BLUE 'le <value> <value>'
+    echoc 3 DARK_BLUE 'positive <number list>'
+    echoc 3 DARK_BLUE 'negative <number list>'
+    echoc 3 DARK_BLUE 'sorted_desc <values list>'
+    echoc 3 DARK_BLUE 'sorted_asc <values list>'
+    echoc 3 DARK_BLUE 'sorted_num_desc <values list>'
+    echoc 3 DARK_BLUE 'sorted_num_asc <values list>'
+    echoc 3 DARK_BLUE 'expression "(<expression>)" [echoes <value>] [and] [returns <value>]'
+    echoc 3 DARK_BLUE 'expression "(<expression>)" is a shortcut for expression "(<expression>)" returns 0'
+}
+
 
 # Only "0", "true" and "TRUE" are true
 is_true() {
-    local value="$*"
+    for value in $*; do
 
-    if [[ $value =~ ^[0-9]+$ ]]; then
-        [ $value -eq 0 ] && return 0
-    else
-        ([ "$value" == "true" ] || [ "$value" == "TRUE" ]) && return 0
-    fi
+        if [[ $value =~ ^[0-9]+$ ]]; then
+            [ $value -ne 0 ] && return 1
+        else
+            ([ ! "$value" == "true" ] && [ ! "$value" == "TRUE" ]) && return 1
+        fi
+    done
 
-    return 1
+    return 0
 }
 
 # Everything is false except when it's true
 is_false() {
-    is_true "$*" || return 0
-    return 1
+    for value in $*; do
+
+        if [[ $value =~ ^[0-9]+$ ]]; then
+            [ $value -ne 1 ] && return 1
+        else
+            ([ ! "$value" == "false" ] && [ ! "$value" == "FALSE" ]) && return 1
+        fi
+    done
+
+    return 0
 }
 
 alpha(){
-    echo "$*" | grep -E "^[[:alpha:]]{1,}$" &> /dev/null
+    echo "$*" | grep -E "^([[:alpha:]]( )?){1,}$" &> /dev/null
 }
 
 alnum(){
-    echo "$*" | grep -E "^[[:alnum:]]{1,}$" &> /dev/null
+    echo "$*" | grep -E "^([[:alnum:]]( )?){1,}$" &> /dev/null
 }
 
 numeric(){
-    echo "$*" | grep -E "^[0-9]{1,}$" &> /dev/null
+    echo "$*" | grep -E "^((-)?[0-9]( )?){1,}$" &> /dev/null
+}
+
+empty() {
+    for value in $*; do
+        [ ! -z "$value" ] && return 1
+    done
+    
+    return 0
+}
+
+not_empty() {
+    for value in $*; do
+        [ -z "$value" ] && return 1
+    done
+    
+    return 0
+}
+
+eq() {
+    numeric $1 && numeric $2 && [ $1 -eq $2 ] && return 0
+    alnum "$1" && alnum "$2" && [ "$1" == "$2" ] && return 0
+    return 1
+}
+
+gt() {
+    numeric $1 && numeric $2 && [ $1 -gt $2 ] && return 0
+    alnum "$1" && alnum "$2" && [[ "$1" > "$2" ]] && return 0
+    return 1
+}
+
+ge() {
+    numeric $1 && numeric $2 && [ $1 -ge $2 ] && return 0
+    alnum "$1" && alnum "$2" && ([[ "$1" > "$2" ]] || [ "$1" == "$2" ]) && return 0
+    return 1
+}
+
+lt() {
+    numeric $1 && numeric $2 && [ $1 -lt $2 ] && return 0
+    alnum "$1" && alnum "$2" && [[ "$1" < "$2" ]] && return 0
+    return 1
+}
+
+le() {
+    numeric $1 && numeric $2 && [ $1 -le $2 ] && return 0
+    alnum "$1" && alnum "$2" && ([[ "$1" < "$2" ]] || [ "$1" == "$2" ]) && return 0
+    return 1
 }
 
 positive() {
-    [ $1 -ge 0 ] && return 0
-
-    return 1
-}
-
-negative() {
-    [ $1 -lt 0 ] && return 0
-
-    return 1
-}
-
-# All >=0
-all_positive() {
     for n in $*; do
+        ! numeric $n && return 1
         [ $n -lt 0 ] && return 1
     done
 
     return 0
 }
 
-# All <0
-all_negative() {
+negative() {
     for n in $*; do
+        ! numeric $n && return 1
         [ $n -ge 0 ] && return 1
     done
 
@@ -89,8 +162,11 @@ sorted_num_desc() {
     current=$1
     shift
 
+    ! numeric $current && return 1
+
     for next in $*; do
-        [[ $next -gt $current ]] && return 1
+        ! numeric $next && return 1
+        [ $next -gt $current ] && return 1
         current=$next
     done
 
@@ -101,8 +177,11 @@ sorted_num_asc() {
     current=$1
     shift
 
+    ! numeric $current && return 1
+
     for next in $*; do
-        [[ $next -lt $current ]] && return 1
+        ! numeric $next && return 1
+        [ $next -lt $current ] && return 1
         current=$next
     done
 
@@ -164,21 +243,3 @@ expression() {
     return 0
 }
 
-
-functions_list() {
-    echoc 3 DARK_BLUE 'is_true (true, TRUE or 0)'
-    echoc 3 DARK_BLUE 'is_false (not true)'
-    echoc 3 DARK_BLUE 'alpha <value>'
-    echoc 3 DARK_BLUE 'numeric <value>'
-    echoc 3 DARK_BLUE 'alnum <value>'
-    echoc 3 DARK_BLUE 'positive <value>'
-    echoc 3 DARK_BLUE 'negative <value>'
-    echoc 3 DARK_BLUE 'all_positive <values list>'
-    echoc 3 DARK_BLUE 'all_negative <values list>'
-    echoc 3 DARK_BLUE 'sorted_desc <values list>'
-    echoc 3 DARK_BLUE 'sorted_asc <values list>'
-    echoc 3 DARK_BLUE 'sorted_num_desc <values list>'
-    echoc 3 DARK_BLUE 'sorted_num_asc <values list>'
-    echoc 3 DARK_BLUE 'expression "(<expression>)" [echoes <value>] [and] [returns <value>]'
-    echoc 3 DARK_BLUE 'expression "(<expression>)" is a shortcut for expression "(<expression>)" returns 0'
-}

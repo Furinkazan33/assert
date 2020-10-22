@@ -3,21 +3,49 @@
 assert [not] <function> <parameters>
 ```
 
+## Command line example
+```
+$ . assert.sh
+$ OUTPUT="/dev/stdout"
+
+$ assert is_true 0 true   0   TRUE
+is_true 0 true 0 TRUE => passed
+
+$ assert expression "(echo "OK"; exit 2)" echoes "OK" and returns 2
+expression (echo OK; exit 2) echoes OK and returns 2 => passed
+
+$ assert positive 0 1 3 -4
+positive 0 1 3 -4 => failed
+
+$ results
+
+ -------------
+  Passed: 2
+  Errors: 1
+ -------------
+
+```
+
 ## Functions list (work in progress to add more) : 
 ```
-is_true (true, TRUE or 0)
-is_false (not true)
-alpha <value>
-numeric <value>
-alnum <value>
-positive <value>
-negative <value>
-all_positive <values list>
-all_negative <values list>
+is_true <values list> (true, TRUE or 0)
+is_false <values list> (false, FALSE or 1)
+alpha <values list>
+numeric <values list>
+alnum <values list>
+empty <values list>
+not_empty <values list>
+eq <value> <value>
+gt <value> <value>
+ge <value> <value>
+lt <value> <value>
+le <value> <value>
+positive <numbers list>
+negative <numbers list>
 sorted_desc <values list>
 sorted_asc <values list>
-sorted_num_desc <values list>
-sorted_num_asc <values list>
+sorted_num_desc <numbers list>
+sorted_num_asc <numbers list>
 expression "(<expression>)" [echoes <value>] [and] [returns <value>]
 ```
 
@@ -52,8 +80,8 @@ CONTINUE=true
 
 assert alpha "sfhGJhgFJkHJK"
 assert alnum "12h4gf3 GHFJk"
-assert not all_positive 0 5 1845421 2 3 3
-assert all_negative -5 -1845421 -2 -3
+assert not positive 0 5 1845421 2 3 3
+assert negative -5 -1845421 -2 -3
 assert not sorted_num_asc -4 0 2 8 7 9 13
 assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg
 assert expression "(echo ok)" echoes ok and returns 0
@@ -72,8 +100,8 @@ exit_with_totals
 ```
 alpha sfhGJhgFJkHJK => passed
 alnum "12h4gf3 GHFJk" => failed
-not all_positive 0 5 1845421 2 3 3 => failed
-all_negative -5 -1845421 -2 -3 => passed
+not positive 0 5 1845421 2 3 3 => failed
+negative -5 -1845421 -2 -3 => passed
 not sorted_num_asc -4 0 2 8 7 9 13 => passed
 sorted_asc a f kgfhfgh pdfgdfg wdfgdfg => passed
 expression (echo OK) echoes OK and returns 0 => passed
@@ -102,8 +130,8 @@ CONTINUE=false
 
 assert alpha "sfhGJhgFJkHJK"
 assert alnum "12h4gf3 GHFJk"
-assert not all_positive 0 5 1845421 2 3 3
-assert all_negative -5 -1845421 -2 -3
+assert not positive 0 5 1845421 2 3 3
+assert negative -5 -1845421 -2 -3
 assert not sorted_num_asc -4 0 2 8 7 9 13
 assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg
 
