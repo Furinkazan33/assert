@@ -1,8 +1,7 @@
 
 # Assertion library to test shell scripts
 
-
-## Features
+Features
 - usable in command line, in your scripts (execution mode) or in your tests scripts (test mode)
 - colored report
 - enable/disable outputs to stdout or log file
@@ -18,7 +17,7 @@ assert [not] expression "(any code here)" [echoes <something>] [and] [returns <v
 - work in progress : interactive menu for setting options
 - work in progress : adding more keywords to the expression grammar (stdout, stderr, empty, contains, is, not-contains, etc ...)
 
-### Assert functions
+## Assert functions
 ```
 is_true <values list> (true, TRUE or 0)
 is_false <values list> (false, FALSE or 1)
@@ -41,14 +40,14 @@ sorted_num_asc <numbers list>
 expression "(<expression>)" [echoes <value>] [and] [returns <value>]
 ```
 
-### User commands
+## User commands
 ```
 help : display grammar and functions list
 results : display a brief summary
 results_and_exit : display a brief summary and exit with 0 or 1 if any assertion has failed
 ```
 
-### Options
+## Options
 
 You can specify if you do not want a log file in your scripts by specifying the following : 
 ```
