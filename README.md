@@ -11,7 +11,19 @@
 - work in progress : interactive menu for setting options
 - work in progress : adding more keywords to the expression grammar (stdout, stderr, empty, contains, is, not-contains, etc ...)
 
-**Assert functions**
+**Options**
+- You can specify if you do not want a log file by specifying the following : ```OUTPUT="/dev/stdout"```
+- You can stop executing your scripts on any errors via the following : ```CONTINUE=false or CONTINUE=1```
+- You can prevent outputs of passing assertions via the following : ```TEST=false or TEST=1```
+
+**User commands**
+```
+help : display grammar and functions list
+results : display a brief summary
+results_and_exit : display a brief summary and exit with 0 or 1 if any assertion has failed
+```
+
+**Functions**
 ```
 is_true <values list> (true, TRUE or 0)
 is_false <values list> (false, FALSE or 1)
@@ -33,19 +45,6 @@ sorted_num_desc <numbers list>
 sorted_num_asc <numbers list>
 expression "(<expression>)" [echoes <value>] [and] [returns <value>]
 ```
-
-**User commands**
-```
-help : display grammar and functions list
-results : display a brief summary
-results_and_exit : display a brief summary and exit with 0 or 1 if any assertion has failed
-```
-
-**Options**
-- You can specify if you do not want a log file by specifying the following : ```OUTPUT="/dev/stdout"```
-- You can stop executing your scripts on any errors via the following : ```CONTINUE=false or CONTINUE=1```
-- You can prevent outputs of passing assertions via the following : ```TEST=false or TEST=1```
-
 
 ## Examples
 
