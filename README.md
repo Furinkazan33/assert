@@ -67,6 +67,13 @@ TEST=false or TEST=1
 
 ## Examples
 
+For complete examples, see the examples folder
+```
+cd examples
+chmod u+x example*
+./example1.sh
+./example2.sh
+```
 
 ### Command line
 ```
@@ -158,14 +165,6 @@ echo "This doesn't occur"
 ...will only produce 
 ```
 An assertion failed during the execution of your script (alnum 12h4gf3 GHFJk)
-```
-
-### For complete examples, see the examples folder
-```
-cd examples
-chmod u+x example*
-./example1.sh
-./example2.sh
 ```
 
 
