@@ -93,8 +93,7 @@ $ results
 
 ### Tests scripts (TEST=true)
 
-#### The following...
-
+The following...
 ```
 # Test mode (all outputs) - this is the default
 TEST=true
@@ -119,8 +118,7 @@ assert not expression "(invalid_command)"
 exit_with_totals
 ```
 
-#### ...will produce the following in a log file
-
+...will produce the following in a log file
 ```
 alpha sfhGJhgFJkHJK => passed
 alnum "12h4gf3 GHFJk" => failed
@@ -143,8 +141,7 @@ not expression (invalid_command) => passed
 
 ### Execution scripts (TEST=false)
 
-#### The following...
-
+The following...
 ```
 # Execution mode (no output)
 TEST=false
@@ -158,8 +155,7 @@ assert alnum "12h4gf3 GHFJk"
 echo "This doesn't occur"
 ```
 
-#### ...will only produce 
-
+...will only produce 
 ```
 An assertion failed during the execution of your script (alnum 12h4gf3 GHFJk)
 ```
@@ -173,5 +169,5 @@ chmod u+x example*
 ```
 
 
-## Feel free to contribute, or ask for improvements or help.
+# Feel free to contribute, or ask for improvements or help.
 
