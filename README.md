@@ -16,30 +16,7 @@ assert [not] expression "(any code here)" [echoes <something>] [and] [returns <v
 - work in progress : interactive menu for setting options
 - work in progress : adding more keywords to the expression grammar (stdout, stderr, empty, contains, is, not-contains, etc ...)
 
-## Command line example
-```
-$ . assert.sh
-$ OUTPUT="/dev/stdout"
-
-$ assert is_true 0 true   0   TRUE
-is_true 0 true 0 TRUE => passed
-
-$ assert expression "(echo "OK"; exit 2)" echoes "OK" and returns 2
-expression (echo OK; exit 2) echoes OK and returns 2 => passed
-
-$ assert positive 0 1 3 -4
-positive 0 1 3 -4 => failed
-
-$ results
-
- -------------
-  Passed: 2
-  Errors: 1
- -------------
-
-```
-
-## Assert functions
+### Assert functions
 ```
 is_true <values list> (true, TRUE or 0)
 is_false <values list> (false, FALSE or 1)
@@ -62,14 +39,14 @@ sorted_num_asc <numbers list>
 expression "(<expression>)" [echoes <value>] [and] [returns <value>]
 ```
 
-## User commands
+### User commands
 ```
 help : display grammar and functions list
 results : display a brief summary
 results_and_exit : display a brief summary and exit with 0 or 1 if any assertion has failed
 ```
 
-## Options
+### Options
 
 You can specify if you do not want a log file in your scripts by specifying the following : 
 ```
@@ -86,9 +63,34 @@ You can prevent outputs of passing assertions via the following :
 TEST=false or TEST=1
 ```
 
-## Example, in your tests scripts (test mode, ie TEST=true)
+## Examples
 
-### The following...
+### Command line example
+```
+$ . assert.sh
+$ OUTPUT="/dev/stdout"
+
+$ assert is_true 0 true   0   TRUE
+is_true 0 true 0 TRUE => passed
+
+$ assert expression "(echo "OK"; exit 2)" echoes "OK" and returns 2
+expression (echo OK; exit 2) echoes OK and returns 2 => passed
+
+$ assert positive 0 1 3 -4
+positive 0 1 3 -4 => failed
+
+$ results
+
+ -------------
+  Passed: 2
+  Errors: 1
+ -------------
+
+```
+
+### Example, in your tests scripts (test mode, ie TEST=true)
+
+#### The following...
 
 ```
 # Test mode (all outputs) - this is the default
@@ -114,7 +116,7 @@ assert not expression "(invalid_command)"
 exit_with_totals
 ```
 
-### ...will produce the following in a log file
+#### ...will produce the following in a log file
 
 ```
 alpha sfhGJhgFJkHJK => passed
@@ -136,9 +138,9 @@ not expression (invalid_command) => passed
  ------------
 ```
 
-## Example, directly in your scripts (execution mode, ie TEST=false)
+### Example, directly in your scripts (execution mode, ie TEST=false)
 
-### The following...
+#### The following...
 
 ```
 # Execution mode (no output)
@@ -153,13 +155,13 @@ assert alnum "12h4gf3 GHFJk"
 echo "This doesn't occur"
 ```
 
-### ...will only produce 
+#### ...will only produce 
 
 ```
 An assertion failed during the execution of your script (alnum 12h4gf3 GHFJk)
 ```
 
-## For complete examples, see the examples folder
+### For complete examples, see the examples folder
 ```
 cd examples
 chmod u+x example*
@@ -167,4 +169,4 @@ chmod u+x example*
 ./example2.sh
 ```
 
-# Feel free to contribute, or ask for improvements or help.
+## Feel free to contribute, or ask for improvements or help.
