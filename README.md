@@ -1,5 +1,6 @@
 # Assertion library to test shell scripts
 ## Features
+- usable in command line, in your scripts (execution mode) or in your tests scripts (test mode)
 - colored report
 - enable/disable outputs to stdout or log file
 - enable/disable stopping on errors
@@ -11,6 +12,8 @@ assert [not] <function> <parameters>
 ```
 assert [not] expression "(any code here)" [echoes <something>] [and] [returns <value>]
 ```
+- work in progress : interactive menu for setting options
+- work in progress : adding more keywords to the expression grammar (stdout, stderr, empty, contains, is, not-contains, etc ...)
 
 ## Command line example
 ```
