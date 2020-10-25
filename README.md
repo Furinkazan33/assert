@@ -1,32 +1,29 @@
-# Assertion library to test shell scripts with colored report.
+
+# Assertion library to test shell scripts
+
+**Features**
+- usable in command line, in your scripts (execution mode) or in your tests scripts (test mode)
+- colored report
+- enable/disable outputs to stdout or log file
+- enable/disable stopping on errors
+- common tests functions : ```assert [not] <function> <parameters>```
+- complex expressions grammar : ```assert [not] expression "(any code here)" [echoes <something>] [and] [returns <value>]```
+- work in progress : interactive menu for setting options
+- work in progress : adding more keywords to the expression grammar (stdout, stderr, empty, contains, is, not-contains, etc ...)
+
+**Options**
+- You can specify if you do not want a log file by specifying the following : ```OUTPUT="/dev/stdout"```
+- You can stop executing your scripts on any errors via the following : ```CONTINUE=false or CONTINUE=1```
+- You can prevent outputs of passing assertions via the following : ```TEST=false or TEST=1```
+
+**User commands**
 ```
-assert [not] <function> <parameters>
-```
-
-## Command line example
-```
-$ . assert.sh
-$ OUTPUT="/dev/stdout"
-
-$ assert is_true 0 true   0   TRUE
-is_true 0 true 0 TRUE => passed
-
-$ assert expression "(echo "OK"; exit 2)" echoes "OK" and returns 2
-expression (echo OK; exit 2) echoes OK and returns 2 => passed
-
-$ assert positive 0 1 3 -4
-positive 0 1 3 -4 => failed
-
-$ results
-
- -------------
-  Passed: 2
-  Errors: 1
- -------------
-
+help : display grammar and functions list
+results : display a brief summary
+results_and_exit : display a brief summary and exit with 0 or 1 if any assertion has failed
 ```
 
-## Functions list (work in progress to add more) : 
+**Functions**
 ```
 is_true <values list> (true, TRUE or 0)
 is_false <values list> (false, FALSE or 1)
@@ -49,28 +46,42 @@ sorted_num_asc <numbers list>
 expression "(<expression>)" [echoes <value>] [and] [returns <value>]
 ```
 
-## Options
+## Examples
 
-You can specify if you do not want a log file in your scripts by specifying the following : 
-
+**For complete examples, see the examples folder**
 ```
-OUTPUT="/dev/stdout"
-```
-
-You can stop executing your scripts on any errors via the following :
-```
-CONTINUE=false or CONTINUE=1
+cd examples
+chmod u+x example*
+./example1.sh
+./example2.sh
 ```
 
-You can prevent outputs of passing assertions via the following :
+### Command line
 ```
-TEST=false or TEST=1
+$ . assert.sh
+$ OUTPUT="/dev/stdout"
+
+$ assert is_true 0 true   0   TRUE
+is_true 0 true 0 TRUE => passed
+
+$ assert expression "(echo "OK"; exit 2)" echoes "OK" and returns 2
+expression (echo OK; exit 2) echoes OK and returns 2 => passed
+
+$ assert positive 0 1 3 -4
+positive 0 1 3 -4 => failed
+
+$ results
+
+ -------------
+  Passed: 2
+  Errors: 1
+ -------------
+
 ```
 
-## Example, in your tests scripts (test mode, ie TEST=true)
+### Tests scripts (TEST=true)
 
-### The following...
-
+The following...
 ```
 # Test mode (all outputs) - this is the default
 TEST=true
@@ -95,8 +106,7 @@ assert not expression "(invalid_command)"
 exit_with_totals
 ```
 
-### Will produce the following in a log file
-
+...will produce the following in a log file
 ```
 alpha sfhGJhgFJkHJK => passed
 alnum "12h4gf3 GHFJk" => failed
@@ -117,10 +127,9 @@ not expression (invalid_command) => passed
  ------------
 ```
 
-## Example, directly in your scripts (execution mode, ie TEST=false) :
+### Execution scripts (TEST=false)
 
-### The following...
-
+The following...
 ```
 # Execution mode (no output)
 TEST=false
@@ -130,26 +139,13 @@ CONTINUE=false
 
 assert alpha "sfhGJhgFJkHJK"
 assert alnum "12h4gf3 GHFJk"
-assert not positive 0 5 1845421 2 3 3
-assert negative -5 -1845421 -2 -3
-assert not sorted_num_asc -4 0 2 8 7 9 13
-assert sorted_asc a f kgfhfgh pdfgdfg wdfgdfg
 
-exit_with_totals
+echo "This doesn't occur"
 ```
 
-### Will only produce 
-
+...will only produce 
 ```
 An assertion failed during the execution of your script (alnum 12h4gf3 GHFJk)
-```
-
-## For complete examples, see the examples folder
-```
-cd examples
-chmod u+x example*
-./example1.sh
-./example2.sh
 ```
 
 
