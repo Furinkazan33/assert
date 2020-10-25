@@ -7,15 +7,24 @@
 #############################################################
 
 
-echoc 0 PURPLE "Stop on error ? (y/n)"
-read answer
-[ "$answer" == "y" ] && CONTINUE=false
+accepted() {
+  [ -z "$1" ] || [ "$1" == "y" ] && return 0
+  return 1 
+}
 
-echoc 0 PURPLE "Output only errors ? (y/n)"
-read answer
-[ "$answer" == "y" ] && TEST=false
+accept() {
+  echoc 0 PURPLE "$* ? (y/n)"
+  read answer
 
-echoc 0 PURPLE "Output to stdout ? (y/n)"
-read answer
-[ "$answer" == "y" ] && OUTPUT="/dev/stdout"
+  accepted "$answer" && return 0
+
+  return 1
+}
+
+i_menu() {
+  accept "Stop on error"  && CONTINUE=false
+  accept "Output only errors" && TEST=false
+  accept "Output to stdout" && OUTPUT="/dev/stdout"
+}
+
 

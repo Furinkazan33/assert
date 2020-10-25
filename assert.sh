@@ -13,6 +13,7 @@ LIB=$(dirname "${BASH_SOURCE[0]}")/lib
 
 . $LIB/colors.sh
 . $LIB/functions.sh
+. $LIB/interactive.sh
 
 # By default, assert is for tests, so do not stop on errors
 TEST=true
@@ -64,6 +65,11 @@ _assert_not() {
 }
 
 assert() {
+  [ "$1" == "help" ] && {
+    echoc 0 PURPLE "assert [not] <function> <parameters>"
+    return 0
+  }
+
     if [ "$1" == "not" ]; then
         shift
         _assert_not "$*"
@@ -99,8 +105,12 @@ results_and_exit() {
 } 
 
 help() {
-    echoc 0 PURPLE "- assert [not] <function> <parameters> : Test functions, functions list : "
-    _functions_list
+    echoc 0 PURPLE "- i_menu : Interactive menu for setting options"
+    echoc 0 PURPLE "- assert : The test function (see assert help for more)"
+    echoc 0 PURPLE "- f_list : Print the functions list"
     echoc 0 PURPLE "- results : Print results"
-    echoc 0 PURPLE "- results_and_exit : (only in your scripts) Print results and exit 1 if errors, exit 0 if no error"
+    echoc 0 PURPLE "- results_and_exit : Print results and exit with code"
 }
+
+help
+

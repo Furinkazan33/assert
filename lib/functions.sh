@@ -6,7 +6,7 @@
 # Functions to use with the assert function
 #############################################################
 
-_functions_list() {
+f_list() {
     echoc 3 DARK_BLUE 'is_true <values list> (true, TRUE or 0)'
     echoc 3 DARK_BLUE 'is_false <values list> (not true)'
     echoc 3 DARK_BLUE 'alpha <values list>'
