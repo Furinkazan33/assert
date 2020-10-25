@@ -8,7 +8,7 @@
 - enable/disable stopping on errors
 - common tests functions : ```assert [not] <function> <parameters>```
 - complex expressions grammar : ```assert [not] expression "(any code here)" [echoes <something>] [and] [returns <value>]```
-- work in progress : interactive menu for setting options
+- interactive menu for setting options
 - work in progress : adding more keywords to the expression grammar (stdout, stderr, empty, contains, is, not-contains, etc ...)
 
 **Options**
@@ -19,8 +19,10 @@
 **User commands**
 ```
 help : display grammar and functions list
+assert : The test function (see assert help for more)
+f_list : display functions list
 results : display a brief summary
-results_and_exit : display a brief summary and exit with 0 or 1 if any assertion has failed
+results_and_exit : display a brief summary and exit with code
 ```
 
 **Functions**
