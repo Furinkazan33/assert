@@ -57,31 +57,11 @@ _test()
   [ $ret_code -eq 0 ] && { return 1; } || { return 0; }
 }
 
-_assert()
-{
-  _test $* || { _assertion_failed "$*"; return 1; }
-
-  _assertion_passed "$*"
-
-  return 0
-}
-
-#_assert_not()
-#{
-#  _test "$*" && { _assertion_failed "not $*"; return 1; }
-#
-#  _assertion_passed not "$*"
-#
-#  return 0
-#}
-
 assert()
 {
   [ "$1" == "help" ] && { echoc 0 PURPLE "assert [not] <function> <parameters>"; return 0; }
 
-  #[ "$1" == "not" ] && { shift; _assert_not "$*"; } || { _assert "$*"; }
-
-  _assert "$*"
+  _test $* && { _assertion_passed "$*"; return 0; } || { _assertion_failed "$*"; return 1; } 
 }
 
 total_passed=0
