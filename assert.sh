@@ -28,89 +28,90 @@ mkdir $LOGS 2> /dev/null
 OUTPUT="$LOGS/execution_$(date +%Y_%m_%d_%s).log"
 
 
-_assertion_failed() {
-    is_true $TEST && echoc 0 KO "$* => failed" || echoc 0 KO "An assertion failed during the execution of your script ($*)"
-    total_failed=$(($total_failed + 1));
-    is_false $CONTINUE && { echo "Stopping script (CONTINUE=$CONTINUE)"; exit 1; }
+_assertion_failed()
+{
+  is_true $TEST && echoc 0 KO "$* => failed" || echoc 0 KO "An assertion failed during the execution of your script ($*)"
+  total_failed=$(($total_failed + 1));
+  is_false $CONTINUE && { echo "Stopping script (CONTINUE=$CONTINUE)"; exit 1; }
 } >> $OUTPUT
 
-_assertion_passed() {
-    is_true $TEST && echoc 0 OK "$* => passed"
-    total_passed=$(($total_passed + 1))
+_assertion_passed()
+{
+  is_true $TEST && echoc 0 OK "$* => passed"
+  total_passed=$(($total_passed + 1))
 } >> $OUTPUT
 
-_test() {
-    local function=$1
-    local params=${*:2}
+_test()
+{
+  [ "$1" == "not" ] && { not=0; shift; } || { not=1; }
 
-    $function $params
-    
-    return $?
+  local function=$1
+  local params=${*:2}
+
+  $function $params
+  
+  local ret_code=$?
+
+  [ $not -eq 1 ] && { return $ret_code; }
+
+  [ $ret_code -eq 0 ] && { return 1; } || { return 0; }
 }
 
-_assert() {
-    _test "$*" || { _assertion_failed "$*"; return 1; }
+_assert()
+{
+  _test $* || { _assertion_failed "$*"; return 1; }
 
-    _assertion_passed "$*"
+  _assertion_passed "$*"
 
-    return 0
+  return 0
 }
 
-_assert_not() {
-    _test "$*" && { _assertion_failed "not $*"; return 1; }
+#_assert_not()
+#{
+#  _test "$*" && { _assertion_failed "not $*"; return 1; }
+#
+#  _assertion_passed not "$*"
+#
+#  return 0
+#}
 
-    _assertion_passed not "$*"
+assert()
+{
+  [ "$1" == "help" ] && { echoc 0 PURPLE "assert [not] <function> <parameters>"; return 0; }
 
-    return 0
-}
+  #[ "$1" == "not" ] && { shift; _assert_not "$*"; } || { _assert "$*"; }
 
-assert() {
-  [ "$1" == "help" ] && {
-    echoc 0 PURPLE "assert [not] <function> <parameters>"
-    return 0
-  }
-
-    if [ "$1" == "not" ]; then
-        shift
-        _assert_not "$*"
-    else
-        _assert "$*"
-    fi
+  _assert "$*"
 }
 
 total_passed=0
 total_failed=0
 
-results() {
-    is_true $TEST && {
-        echo "" >> $OUTPUT
-        echoc 1 YELLOW "-------------" >> $OUTPUT
-        echoc 2 OK "Passed: $total_passed" >> $OUTPUT
-        echoc 2 KO "Errors: $total_failed" >> $OUTPUT
-        echoc 1 YELLOW "-------------" >> $OUTPUT
-        echo "" >> $OUTPUT
+results()
+{
+  is_true $TEST && {
+    echo "" >> $OUTPUT
+      echoc 1 YELLOW "-------------" >> $OUTPUT
+      echoc 2 OK "Passed: $total_passed" >> $OUTPUT
+      echoc 2 KO "Errors: $total_failed" >> $OUTPUT
+      echoc 1 YELLOW "-------------" >> $OUTPUT
+      echo "" >> $OUTPUT
     }
 
-    [ -f $OUTPUT ] && cat $OUTPUT
-} 
-
-results_and_exit() {
-    results
-
-    is_true $TEST && {
-        [ $total_failed -ne 0 ] && exit 1
-        exit 0
-    }
-
-} 
-
-help() {
-    echoc 0 PURPLE "- i_menu : Interactive menu for setting options"
-    echoc 0 PURPLE "- assert : The test function (see assert help for more)"
-    echoc 0 PURPLE "- f_list : Print the functions list"
-    echoc 0 PURPLE "- results : Print results"
-    echoc 0 PURPLE "- results_and_exit : Print results and exit with code"
+  [ -f $OUTPUT ] && cat $OUTPUT
 }
 
-help
+exit_with_code() {
+  [ $total_failed -ne 0 ] && exit 1 || exit 0
+}
+
+help()
+{
+  echoc 0 PURPLE "- i_menu : Interactive menu for setting options"
+  echoc 0 PURPLE "- assert : The test function (see assert help for more)"
+  echoc 0 PURPLE "- f_list : Print the functions list"
+  echoc 0 PURPLE "- results : Print results"
+  echoc 0 PURPLE "- exit_with_code : Exit with code"
+}
+
 

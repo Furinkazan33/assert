@@ -20,9 +20,9 @@
 ```
 help : display grammar and functions list
 assert : The test function (see assert help for more)
-f_list : display functions list
-results : display a brief summary
-results_and_exit : display a brief summary and exit with code
+f_list : Display functions list
+results : Display a brief summary
+exit_with_code : Exit with code
 ```
 
 **Functions**
@@ -105,7 +105,8 @@ assert expression "(func OK)" returns 3
 assert expression "(./example.sh p1)" echoes "Usage: ./example.sh" and returns 1
 assert not expression "(invalid_command)"
 
-exit_with_totals
+results
+exit_with_code
 ```
 
 ...will produce the following in a log file

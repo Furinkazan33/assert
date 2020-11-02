@@ -52,7 +52,8 @@ assert not sorted_asc zero bibi
 assert not sorted_desc z y g a
 
 assert expression "(echo ok)" echoes ok and returns 0
-func() { echo "Working $1 !"; return 3; }
+func()
+{ echo "Working $1 !"; return 3; }
 assert expression "(func OK)" echoes "Working OK !" and returns 3
 assert expression "(func OK)" echoes "Working OK !"
 assert expression "(func OK)" returns 3
@@ -62,5 +63,7 @@ assert expression "(invalid_command)"
 ######################################
 # Results
 ######################################
-results_and_exit
+results
+exit_with_code
+
 

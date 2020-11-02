@@ -20,35 +20,38 @@ OUTPUT="/dev/stdout"
 [ $# -ne 0 ] && { echo "Usage: ./example2.sh"; exit 1; }
 
 
-function add() {
-    echo $(($1 + $2))
+function add()
+{
+  echo $(($1 + $2))
 }
 
-function concat() { 
-    echo "string_$1$2"
+function concat()
+{
+  echo "string_$1$2"
 }
 
-function main() {
-    val1=2
-    val2=3
-    
-    # This will pass
-    result=$(add $val1 $val2)
-    assert alnum $result
-    
-    # This will fail
-    result=$(concat $val1 $val2)
-    assert numeric $result
-    
-    # This will pass
-    result=$(add $val1 $val2)
-    assert numeric $result
-    
-    echo "End main function"
+function main()
+{
+  local val1=2
+  local val2=3
+
+  # This will pass
+  result=$(add $val1 $val2)
+  assert alnum $result
+
+  # This will fail
+  result=$(concat $val1 $val2)
+  assert numeric $result
+
+  # This will pass
+  result=$(add $val1 $val2)
+  assert numeric $result
+
+  echo "End main function"
 }
 
 ####################################
-# Tests 
+# Tests
 ####################################
 
 # Enable echo and continue on error

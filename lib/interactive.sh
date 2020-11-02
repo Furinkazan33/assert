@@ -7,12 +7,14 @@
 #############################################################
 
 
-accepted() {
+accepted()
+{
   [ -z "$1" ] || [ "$1" == "y" ] && return 0
-  return 1 
+  return 1
 }
 
-accept() {
+accept()
+{
   echoc 0 PURPLE "$* ? (y/n)"
   read answer
 
@@ -21,7 +23,8 @@ accept() {
   return 1
 }
 
-i_menu() {
+i_menu()
+{
   accept "Stop on error"  && CONTINUE=false
   accept "Output only errors" && TEST=false
   accept "Output to stdout" && OUTPUT="/dev/stdout"
