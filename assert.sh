@@ -13,7 +13,6 @@ LIB=$(dirname "${BASH_SOURCE[0]}")/lib
 
 . $LIB/colors.sh
 . $LIB/functions.sh
-. $LIB/interactive.sh
 . $LIB/utils.sh
 
 # By default, assert is for tests, so do not stop on errors
@@ -59,7 +58,7 @@ _test()
 
 assert()
 {
-  [ "$1" == "help" ] && { echoc 0 PURPLE "assert [not] <function> <parameters>"; return 0; }
+  [ "$1" == "-h" ] && { echoc 0 PURPLE "assert [not] <function> <parameters>"; return 0; }
 
   _test $* && { _assertion_passed "$*"; return 0; } || { _assertion_failed "$*"; return 1; }
 }
@@ -67,36 +66,54 @@ assert()
 total_passed=0
 total_failed=0
 
-results()
+assert_results()
 {
-  is_true $TEST && {
-    redirect_start $OUTPUT
+  is_true $TEST && 
+    {
+      redirect_start $OUTPUT
+      echo ""
+      echoc 1 YELLOW "-------------"
+      echoc 2 OK "Passed: $total_passed"
+      echoc 2 KO "Errors: $total_failed"
+      echoc 1 YELLOW "-------------"
+      echo ""
+      redirect_stop
+    }
 
-    echo ""
-    echoc 1 YELLOW "-------------"
-    echoc 2 OK "Passed: $total_passed"
-    echoc 2 KO "Errors: $total_failed"
-    echoc 1 YELLOW "-------------"
-    echo ""
-
-    redirect_stop
- }
-
- [ -f $OUTPUT ] && cat $OUTPUT
+  [ -f $OUTPUT ] && cat $OUTPUT
 }
 
-exit_with_code()
+assert_exit_code()
 {
   [ $total_failed -ne 0 ] && exit 1 || exit 0
 }
 
-help()
+assert_menu()
 {
-  echoc 0 PURPLE "- i_menu : Interactive menu for setting options"
-  echoc 0 PURPLE "- assert : The test function (see assert help for more)"
-  echoc 0 PURPLE "- f_list : Print the functions list"
-  echoc 0 PURPLE "- results : Print results"
-  echoc 0 PURPLE "- exit_with_code : Exit with code"
+  accept "Stop on error"  && CONTINUE=false
+  accept "Output only errors" && TEST=false
+  accept "Output to stdout" && OUTPUT="/dev/stdout"
+}
+
+assert_functions()
+{
+  [ "$1" == "-h" ] && echo "Here is the result of the $(echoc 0 DARK_BLUE \"-u\") and $(echoc 0 BLUE \"-h\") options on these functions :"
+
+  functions=$(grep "()" $LIB/functions.sh | grep -v usage | cut -d"(" -f1)
+
+  for f in $functions; do
+    echoc 0 DARK_BLUE $($f -u)
+    [ "$1" == "-h" ] && echoc 1 BLUE $($f -h)
+  done
+}
+
+assert_help()
+{
+  echoc 0 PURPLE "- assert_menu           : Interactive menu for setting options"
+  echoc 0 PURPLE "- assert_functions [-h] : Print the functions list (see -h for help)"
+  echoc 0 PURPLE "- assert [-h]           : The test function (see -h for help)"
+  echoc 0 PURPLE "- assert_results        : Print results"
+  echoc 0 PURPLE "- assert_exit_code      : Exit with code"
 }
 
 

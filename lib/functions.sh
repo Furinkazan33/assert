@@ -6,34 +6,12 @@
 # Functions to use with the assert function
 #############################################################
 
-f_list()
-{
-  echoc 3 DARK_BLUE 'is_true <values list> (true, TRUE or 0)'
-  echoc 3 DARK_BLUE 'is_false <values list> (not true)'
-  echoc 3 DARK_BLUE 'alpha <values list>'
-  echoc 3 DARK_BLUE 'numeric <numbers list>'
-  echoc 3 DARK_BLUE 'alnum <values list>'
-  echoc 3 DARK_BLUE 'empty <values list>'
-  echoc 3 DARK_BLUE 'not_empty <values list>'
-  echoc 3 DARK_BLUE 'eq <value> <value>'
-  echoc 3 DARK_BLUE 'gt <value> <value>'
-  echoc 3 DARK_BLUE 'ge <value> <value>'
-  echoc 3 DARK_BLUE 'lt <value> <value>'
-  echoc 3 DARK_BLUE 'le <value> <value>'
-  echoc 3 DARK_BLUE 'positive <number list>'
-  echoc 3 DARK_BLUE 'negative <number list>'
-  echoc 3 DARK_BLUE 'sorted_desc <values list>'
-  echoc 3 DARK_BLUE 'sorted_asc <values list>'
-  echoc 3 DARK_BLUE 'sorted_num_desc <values list>'
-  echoc 3 DARK_BLUE 'sorted_num_asc <values list>'
-  echoc 3 DARK_BLUE 'expression "(<expression>)" [echoes <value>] [and] [returns <value>]'
-  echoc 3 DARK_BLUE 'expression "(<expression>)" is a shortcut for expression "(<expression>)" returns 0'
-}
-
-
 # Only "0", "true" and "TRUE" are true
 is_true()
 {
+  [ "$1" == "-u" ] && { echo "is_true <values list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Values are true iff true, TRUE or 0"; return 2; }
+
   for value in $*; do
 
     if [[ $value =~ ^[0-9]+$ ]]; then
@@ -49,7 +27,10 @@ is_true()
 # Everything is false except when it's true
 is_false()
 {
-  for value in $*; do
+  [ "$1" == "-u" ] && { echo "is_false <values list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Values are false iff not true"; return 2; }
+
+ for value in $*; do
 
     if [[ $value =~ ^[0-9]+$ ]]; then
       [ $value -ne 1 ] && return 1
@@ -63,22 +44,34 @@ is_false()
 
 alpha()
 {
-  echo "$*" | grep -E "^([[:alpha:]]( )?){1,}$" &> /dev/null
+  [ "$1" == "-u" ] && { echo "alpha <values list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Values are alpha iff [[:alpha:]]"; return 2; }
+
+ echo "$*" | grep -E "^([[:alpha:]]( )?){1,}$" &> /dev/null
 }
 
 alnum()
 {
-  echo "$*" | grep -E "^([[:alnum:]]( )?){1,}$" &> /dev/null
+  [ "$1" == "-u" ] && { echo "alnum <values list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Values are alphanumeric iff [[:alnum:]]"; return 2; }
+
+ echo "$*" | grep -E "^([[:alnum:]]( )?){1,}$" &> /dev/null
 }
 
 numeric()
 {
-  echo "$*" | grep -E "^((-)?[0-9]( )?){1,}$" &> /dev/null
+  [ "$1" == "-u" ] && { echo "numeric <values list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Values are numeric iff positive or negative numbers"; return 2; }
+
+ echo "$*" | grep -E "^((-)?[0-9]( )?){1,}$" &> /dev/null
 }
 
 empty()
 {
-  for value in $*; do
+  [ "$1" == "-u" ] && { echo "empty <values list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Values are empty iff length is 0"; return 2; }
+
+ for value in $*; do
     [ ! -z "$value" ] && return 1
   done
 
@@ -87,7 +80,10 @@ empty()
 
 not_empty()
 {
-  for value in $*; do
+  [ "$1" == "-u" ] && { echo "not_empty <values list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Values are not empty iff length is not 0"; return 2; }
+
+ for value in $*; do
     [ -z "$value" ] && return 1
   done
 
@@ -96,42 +92,60 @@ not_empty()
 
 eq()
 {
-  numeric $1 && numeric $2 && [ $1 -eq $2 ] && return 0
+  [ "$1" == "-u" ] && { echo "eq <value> <value>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Accepts string or numbers"; return 2; }
+
+ numeric $1 && numeric $2 && [ $1 -eq $2 ] && return 0
   alnum "$1" && alnum "$2" && [ "$1" == "$2" ] && return 0
   return 1
 }
 
 gt()
 {
-  numeric $1 && numeric $2 && [ $1 -gt $2 ] && return 0
+  [ "$1" == "-u" ] && { echo "gt <value> <value>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Accepts string or numbers"; return 2; }
+
+ numeric $1 && numeric $2 && [ $1 -gt $2 ] && return 0
   alnum "$1" && alnum "$2" && [[ "$1" > "$2" ]] && return 0
   return 1
 }
 
 ge()
 {
-  numeric $1 && numeric $2 && [ $1 -ge $2 ] && return 0
+  [ "$1" == "-u" ] && { echo "ge <value> <value>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Accepts string or numbers"; return 2; }
+
+ numeric $1 && numeric $2 && [ $1 -ge $2 ] && return 0
   alnum "$1" && alnum "$2" && ([[ "$1" > "$2" ]] || [ "$1" == "$2" ]) && return 0
   return 1
 }
 
 lt()
 {
-  numeric $1 && numeric $2 && [ $1 -lt $2 ] && return 0
+  [ "$1" == "-u" ] && { echo "lt <value> <value>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Accepts string or numbers"; return 2; }
+
+ numeric $1 && numeric $2 && [ $1 -lt $2 ] && return 0
   alnum "$1" && alnum "$2" && [[ "$1" < "$2" ]] && return 0
   return 1
 }
 
 le()
 {
-  numeric $1 && numeric $2 && [ $1 -le $2 ] && return 0
+  [ "$1" == "-u" ] && { echo "le <value> <value>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Accepts string or numbers"; return 2; }
+
+ numeric $1 && numeric $2 && [ $1 -le $2 ] && return 0
   alnum "$1" && alnum "$2" && ([[ "$1" < "$2" ]] || [ "$1" == "$2" ]) && return 0
   return 1
 }
 
 positive()
 {
-  for n in $*; do
+  [ "$1" == "-u" ] && { echo "positive <number list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "False if it contains a non numeric value"; return 2; }
+
+ for n in $*; do
     ! numeric $n && return 1
     [ $n -lt 0 ] && return 1
   done
@@ -141,7 +155,10 @@ positive()
 
 negative()
 {
-  for n in $*; do
+  [ "$1" == "-u" ] && { echo "negative <number list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "False if it contains a non numeric value"; return 2; }
+
+ for n in $*; do
     ! numeric $n && return 1
     [ $n -ge 0 ] && return 1
   done
@@ -151,7 +168,10 @@ negative()
 
 sorted_desc()
 {
-  current=$1
+  [ "$1" == "-u" ] && { echo "sorted_desc <values list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Accept alphanumeric values"; return 2; }
+
+ current=$1
   shift
 
   for next in $*; do
@@ -164,7 +184,10 @@ sorted_desc()
 
 sorted_asc()
 {
-  current=$1
+  [ "$1" == "-u" ] && { echo "sorted_asc <values list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "Accept alphanumeric values"; return 2; }
+
+ current=$1
   shift
 
   for next in $*; do
@@ -177,7 +200,10 @@ sorted_asc()
 
 sorted_num_desc()
 {
-  current=$1
+  [ "$1" == "-u" ] && { echo "sorted_num_desc <values list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "False if it contains non numeric values"; return 2; }
+
+ current=$1
   shift
 
   ! numeric $current && return 1
@@ -193,7 +219,10 @@ sorted_num_desc()
 
 sorted_num_asc()
 {
-  current=$1
+  [ "$1" == "-u" ] && { echo "sorted_num_asc <values list>"; return 2; }
+  [ "$1" == "-h" ] && { echo "False if it contains non numeric values"; return 2; }
+
+ current=$1
   shift
 
   ! numeric $current && return 1
@@ -207,60 +236,60 @@ sorted_num_asc()
   return 0
 }
 
+_expression_usage() {
+  echo 'expression "(expression)" [echoes <value>] [and] [returns <value>]'
+}
+
 expression()
 {
-  usage()
-  {
-    echo 'Usage: expression "(expression)" [echoes <value>] [and] [returns <value>]'
-    echo "With expression is a function call, an echo, a subscript, ..."
-  }
+  [ "$1" == "-u" ] && { _expression_usage; return 2; }
+  [ "$1" == "-h" ] && { echo "The tested expression must be between double quotes and parentheses. It can be any shell expression (function call, script call, ..."; return 2; }
 
-regex="^\((.*)\)( echoes (.*) and returns (.*)| echoes (.*)| returns (.*))?$"
+  regex="^\((.*)\)( echoes (.*) and returns (.*)| echoes (.*)| returns (.*))?$"
 
-if [[ "$*" =~ $regex ]]
-then
-  expression="${BASH_REMATCH[1]}"
-  expecting="${BASH_REMATCH[2]}"
-  #echo "1:${BASH_REMATCH[1]}"
-  #echo "2:${BASH_REMATCH[2]}"
-  #echo "3:${BASH_REMATCH[3]}"
-  #echo "4:${BASH_REMATCH[4]}"
-  #echo "5:${BASH_REMATCH[5]}"
-  #echo "6:${BASH_REMATCH[6]}"
-else
-  usage
-  return 1
-    fi
+  if [[ "$*" =~ $regex ]]; then
+    expression="${BASH_REMATCH[1]}"
+    expecting="${BASH_REMATCH[2]}"
+    #echo "1:${BASH_REMATCH[1]}"
+    #echo "2:${BASH_REMATCH[2]}"
+    #echo "3:${BASH_REMATCH[3]}"
+    #echo "4:${BASH_REMATCH[4]}"
+    #echo "5:${BASH_REMATCH[5]}"
+      #echo "6:${BASH_REMATCH[6]}"
+  else
+    _expression_usage
+    return 1
+  fi
 
-    expression_echo=$(eval $expression 2> /dev/null)
-    expression_return=$?
+  expression_echo=$(eval $expression 2> /dev/null)
+  expression_return=$?
 
-    local echoes returns
+  local echoes returns
 
-    # Only returns
-    if [ ! -z "${BASH_REMATCH[6]}" ]; then
-      [ $expression_return -ne ${BASH_REMATCH[6]} ] && return 1
-      return 0
+  # Only returns
+  if [ ! -z "${BASH_REMATCH[6]}" ]; then
+    [ $expression_return -ne ${BASH_REMATCH[6]} ] && return 1
+    return 0
 
-    # Only echoes
+  # Only echoes
   elif [ ! -z "${BASH_REMATCH[5]}" ]; then
     [ "$expression_echo" != "${BASH_REMATCH[5]}" ] && return 1
     return 0
 
-    # Only expression
+  # Only expression
   elif [ -z "${BASH_REMATCH[4]}" ] && [ -z "${BASH_REMATCH[3]}" ] && [ -z "${BASH_REMATCH[2]}" ]; then
     [ $expression_return -ne 0 ] && return 1
     return 0
 
-    # returns and echoes
+  # returns and echoes
   else
     [ "$expression_echo" != "${BASH_REMATCH[3]}" ] && return 1
     [ $expression_return -ne ${BASH_REMATCH[4]} ] && return 1
     return 0
   fi
 
-    #echo "$expression $expression_echo $expression_return $echoes $returns"
+  #echo "$expression $expression_echo $expression_return $echoes $returns"
 
-    return 0
-  }
+  return 0
+}
 

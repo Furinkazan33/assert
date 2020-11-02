@@ -63,7 +63,7 @@ assert expression "(invalid_command)"
 ######################################
 # Results
 ######################################
-results
-exit_with_code
+assert_results
+assert_exit_code
 
 
