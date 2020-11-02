@@ -14,6 +14,7 @@ LIB=$(dirname "${BASH_SOURCE[0]}")/lib
 . $LIB/colors.sh
 . $LIB/functions.sh
 . $LIB/interactive.sh
+. $LIB/utils.sh
 
 # By default, assert is for tests, so do not stop on errors
 TEST=true
@@ -26,7 +27,6 @@ mkdir $LOGS 2> /dev/null
 # Output file, set as "/dev/stdout" to output to stdout
 #OUTPUT="/dev/stdout"
 OUTPUT="$LOGS/execution_$(date +%Y_%m_%d_%s).log"
-
 
 _assertion_failed()
 {
@@ -49,7 +49,7 @@ _test()
   local params=${*:2}
 
   $function $params
-  
+
   local ret_code=$?
 
   [ $not -eq 1 ] && { return $ret_code; }
@@ -61,7 +61,7 @@ assert()
 {
   [ "$1" == "help" ] && { echoc 0 PURPLE "assert [not] <function> <parameters>"; return 0; }
 
-  _test $* && { _assertion_passed "$*"; return 0; } || { _assertion_failed "$*"; return 1; } 
+  _test $* && { _assertion_passed "$*"; return 0; } || { _assertion_failed "$*"; return 1; }
 }
 
 total_passed=0
@@ -70,18 +70,23 @@ total_failed=0
 results()
 {
   is_true $TEST && {
-    echo "" >> $OUTPUT
-      echoc 1 YELLOW "-------------" >> $OUTPUT
-      echoc 2 OK "Passed: $total_passed" >> $OUTPUT
-      echoc 2 KO "Errors: $total_failed" >> $OUTPUT
-      echoc 1 YELLOW "-------------" >> $OUTPUT
-      echo "" >> $OUTPUT
-    }
+    redirect_start $OUTPUT
 
-  [ -f $OUTPUT ] && cat $OUTPUT
+    echo ""
+    echoc 1 YELLOW "-------------"
+    echoc 2 OK "Passed: $total_passed"
+    echoc 2 KO "Errors: $total_failed"
+    echoc 1 YELLOW "-------------"
+    echo ""
+
+    redirect_stop
+ }
+
+ [ -f $OUTPUT ] && cat $OUTPUT
 }
 
-exit_with_code() {
+exit_with_code()
+{
   [ $total_failed -ne 0 ] && exit 1 || exit 0
 }
 
