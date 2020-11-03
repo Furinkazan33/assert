@@ -27,8 +27,8 @@ assert_exit_code      : Exit with code
 
 **Functions**
 ```
-is_true <values list> (true, TRUE or 0)
-is_false <values list> (false, FALSE or 1)
+is_true <values list>
+is_false <values list>
 alpha <values list>
 numeric <values list>
 alnum <values list>
