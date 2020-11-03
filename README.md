@@ -18,11 +18,11 @@
 
 **User commands**
 ```
-help : display grammar and functions list
-assert : The test function (see assert help for more)
-f_list : Display functions list
-results : Display a brief summary
-exit_with_code : Exit with code
+assert_menu           : Interactive menu for setting options
+assert_functions [-h] : Display functions list (-h for help)
+assert [-h]           : The test function (-h for help)
+assert_results        : Display a brief summary
+assert_exit_code      : Exit with code
 ```
 
 **Functions**
