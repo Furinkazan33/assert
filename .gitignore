@@ -1,2 +1,6 @@
 tags
 *.swp
+*.bak
+*.tmp
+logs/
+log/
